@@ -15,7 +15,7 @@ struct TaskRow: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 6)
                         .stroke(item.isCompleted ? .clear : .black, lineWidth: 1.5)
-                        .frame(width: 22, height: 22)
+                        .frame(width: 30, height: 22)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
                                 .fill(item.isCompleted ? Color.daynestAccent : .clear)
