@@ -184,3 +184,8 @@ struct CalendarView: View {
         allItems.contains { calendar.isDate($0.timestamp, inSameDayAs: date) }
     }
 }
+
+
+#Preview{
+    CalendarView()
+}

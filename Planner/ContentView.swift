@@ -81,7 +81,7 @@ struct ContentView: View {
                             .bold()
                         
                         ScrollView {
-                            VStack(spacing: 4) {
+                            VStack(spacing: 6) {
                                 ForEach(filteredItems) { item in
                                     TaskRow(item: item)
                                         .contextMenu {
@@ -143,4 +143,9 @@ struct ContentView: View {
             try? modelContext.save()
         }
     }
+}
+
+
+#Preview {
+    ContentView()
 }

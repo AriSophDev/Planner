@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct TaskRow: View {
     @Bindable var item: Item
@@ -14,7 +15,7 @@ struct TaskRow: View {
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(item.isCompleted ? .clear : .black, lineWidth: 1.5)
+                        .stroke(item.isCompleted ? .clear : .black, lineWidth: 2)
                         .frame(width: 30, height: 22)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
@@ -47,4 +48,15 @@ struct TaskRow: View {
             }
         }
     }
+}
+
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Item.self, configurations: config)
+    let item = Item(title: "Ejemplo de tarea")
+    container.mainContext.insert(item)
+    
+    return TaskRow(item: item)
+        .padding()
+        .modelContainer(container)
 }
