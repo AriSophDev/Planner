@@ -20,7 +20,7 @@ struct OnboardingView: View {
                     .bold()
                     .foregroundStyle(.daynestAccent)
                 
-                // Aquí iría tu ilustración
+            
                 Image("illustration_hero")
                     .resizable()
                     .scaledToFit()
