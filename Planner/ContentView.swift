@@ -28,13 +28,26 @@ struct ContentView: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     // Header con fecha real
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Today's Tasks")
-                            .font(.custom("GoogleSansFlex-Regular", size: 28))
-                            .bold()
-                        Text(selectedDate.formatted(date: .long, time: .omitted))
-                            .font(.custom("GoogleSansFlex-Regular", size: 14))
-                            .foregroundStyle(.gray)
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Today's Tasks")
+                                .font(.custom("GoogleSansFlex-Regular", size: 28))
+                                .bold()
+                            Text(selectedDate.formatted(date: .long, time: .omitted))
+                                .font(.custom("GoogleSansFlex-Regular", size: 14))
+                                .foregroundStyle(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: CalendarView()) {
+                            Image(systemName: "calendar")
+                                .font(.title2)
+                                .foregroundStyle(.daynestAccent)
+                                .padding(10)
+                                .background(Color.white.opacity(0.5))
+                                .clipShape(Circle())
+                        }
                     }
                     .padding(.horizontal)
                     
