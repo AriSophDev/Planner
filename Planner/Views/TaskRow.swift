@@ -32,7 +32,7 @@ struct TaskRow: View {
             
             // Campo de texto editable
             TextField("Task name...", text: $item.title)
-                .font(.custom("GoogleSansFlex-Regular", size: 17))
+                .dynaPuffFont(size: 17)
                 .focused($isFocused)
                 .strikethrough(item.isCompleted)
                 .foregroundStyle(item.isCompleted ? .black.opacity(0.4) : .black)

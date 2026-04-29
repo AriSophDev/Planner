@@ -28,7 +28,7 @@ struct CalendarView: View {
                         }
                     }) {
                         Text("Week")
-                            .font(.custom("GoogleSansFlex-Regular", size: 14))
+                            .dynaPuffFont(size: 14)
                             .foregroundStyle(viewMode == .week ? .white : .black)
                             .padding(.vertical, 8)
                             .padding(.horizontal, 24)
@@ -42,7 +42,7 @@ struct CalendarView: View {
                         }
                     }) {
                         Text("Month")
-                            .font(.custom("GoogleSansFlex-Regular", size: 14))
+                            .dynaPuffFont(size: 14)
                             .foregroundStyle(viewMode == .month ? .white : .black)
                             .padding(.vertical, 8)
                             .padding(.horizontal, 24)
@@ -59,7 +59,7 @@ struct CalendarView: View {
                 HStack {
                     ForEach(daysOfWeek, id: \.self) { day in
                         Text(day)
-                            .font(.custom("GoogleSansFlex-Regular", size: 12))
+                            .dynaPuffFont(size: 12)
                             .frame(maxWidth: .infinity)
                             .foregroundStyle(.gray)
                     }
@@ -88,7 +88,7 @@ struct CalendarView: View {
                 if let date = date {
                     VStack(spacing: 4) {
                         Text("\(calendar.component(.day, from: date))")
-                            .font(.custom("GoogleSansFlex-Regular", size: 14))
+                            .dynaPuffFont(size: 14)
                             .fontWeight(calendar.isDate(date, inSameDayAs: selectedDate) ? .bold : .regular)
                             .foregroundStyle(calendar.isDate(date, inSameDayAs: selectedDate) ? .white : .black)
                             .frame(width: 30, height: 30)
@@ -142,7 +142,7 @@ struct CalendarView: View {
                     
                     if filteredItems.isEmpty {
                         Text("No tasks for this day")
-                            .font(.custom("GoogleSansFlex-Regular", size: 14))
+                            .dynaPuffFont(size: 14)
                             .foregroundStyle(.gray)
                             .frame(maxWidth: .infinity, alignment: .center)
                             .padding()
@@ -167,7 +167,7 @@ struct CalendarView: View {
                                 Image(systemName: "plus")
                                 Text("Add new task...")
                             }
-                            .font(.custom("GoogleSansFlex-Regular", size: 16))
+                            .dynaPuffFont(size: 16)
                             .foregroundStyle(Color.daynestAccent)
                             .padding(.vertical, 8)
                             .padding(.horizontal)

@@ -12,8 +12,16 @@ import SwiftData
 struct PlannerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ModelContextWrapper()
         }
         .modelContainer(for: Item.self)
+    }
+}
+
+struct ModelContextWrapper: View {
+    @Environment(\.modelContext) private var modelContext
+    
+    var body: some View {
+        ContentView(modelContext: modelContext)
     }
 }

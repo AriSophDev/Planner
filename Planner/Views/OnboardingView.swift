@@ -16,7 +16,7 @@ struct OnboardingView: View {
             
             VStack(spacing: 30) {
                 Text("Daynest")
-                    .font(.custom("GoogleSansFlex-Regular", size: 40))
+                    .dynaPuffFont(size: 40)
                     .bold()
                     .foregroundStyle(.daynestAccent)
                 
@@ -34,7 +34,7 @@ struct OnboardingView: View {
                     }
                 }) {
                     Text("Start")
-                        .font(.custom("GoogleSansFlex-Regular", size: 18))
+                        .dynaPuffFont(size: 18)
                         .bold()
                         .foregroundStyle(.daynestAccent)
                         .frame(maxWidth: .infinity)
