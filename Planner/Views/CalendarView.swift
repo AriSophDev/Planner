@@ -22,21 +22,31 @@ struct CalendarView: View {
             VStack(spacing: 20) {
                 // View Mode Toggle (Week/Month)
                 HStack {
-                    Button(action: { viewMode = .week }) {
+                    Button(action: { 
+                        withAnimation(.spring()) {
+                            viewMode = .week 
+                        }
+                    }) {
                         Text("Week")
                             .font(.custom("GoogleSansFlex-Regular", size: 14))
+                            .foregroundStyle(viewMode == .week ? .white : .black)
                             .padding(.vertical, 8)
                             .padding(.horizontal, 24)
-                            .background(viewMode == .week ? Color.white : Color.clear)
+                            .background(viewMode == .week ? Color.daynestAccent : Color.clear)
                             .clipShape(Capsule())
                     }
                     
-                    Button(action: { viewMode = .month }) {
+                    Button(action: { 
+                        withAnimation(.spring()) {
+                            viewMode = .month 
+                        }
+                    }) {
                         Text("Month")
                             .font(.custom("GoogleSansFlex-Regular", size: 14))
+                            .foregroundStyle(viewMode == .month ? .white : .black)
                             .padding(.vertical, 8)
                             .padding(.horizontal, 24)
-                            .background(viewMode == .month ? Color.white : Color.clear)
+                            .background(viewMode == .month ? Color.daynestAccent : Color.clear)
                             .clipShape(Capsule())
                     }
                 }
@@ -59,6 +69,7 @@ struct CalendarView: View {
                 // Calendar Grid
                 calendarGrid
                     .padding(.horizontal)
+                    .id(viewMode)
                 
                 Spacer()
                 
@@ -69,7 +80,7 @@ struct CalendarView: View {
     }
     
     private var calendarGrid: some View {
-        let days = generateDaysInMonth(for: selectedDate)
+        let days = viewMode == .month ? generateDaysInMonth(for: selectedDate) : generateDaysInWeek(for: selectedDate)
         let columns = Array(repeating: GridItem(.flexible()), count: 7)
         
         return LazyVGrid(columns: columns, spacing: 15) {
@@ -108,6 +119,7 @@ struct CalendarView: View {
         }
     }
     
+    
     private var taskSection: some View {
         VStack {
             // Illustration Placeholder
@@ -136,16 +148,28 @@ struct CalendarView: View {
                             .padding()
                     } else {
                         ForEach(filteredItems) { item in
-                            HStack(spacing: 12) {
-                                Circle()
-                                    .stroke(Color.daynestAccent, lineWidth: 2)
-                                    .frame(width: 12, height: 12)
-                                
-                                Text(item.title)
-                                    .font(.custom("GoogleSansFlex-Regular", size: 16))
-                                    .strikethrough(item.isCompleted)
-                                    .foregroundStyle(item.isCompleted ? .gray : .black)
+                            TaskRow(item: item)
+                                .padding(.horizontal)
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        deleteItem(item)
+                                    } label: {
+                                        Label("Delete Task", systemImage: "trash")
+                                    }
+                                }
+                        }
+                        
+                        // Button to add new task
+                        Button {
+                            addNewItem()
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus")
+                                Text("Add new task...")
                             }
+                            .font(.custom("GoogleSansFlex-Regular", size: 16))
+                            .foregroundStyle(Color.daynestAccent)
+                            .padding(.vertical, 8)
                             .padding(.horizontal)
                         }
                     }
@@ -157,6 +181,19 @@ struct CalendarView: View {
             UnevenRoundedRectangle(topLeadingRadius: 40, topTrailingRadius: 40)
                 .fill(Color.white.opacity(0.3))
         )
+    }
+
+    private func addNewItem() {
+        let newItem = Item(timestamp: selectedDate, title: "New Task")
+        modelContext.insert(newItem)
+        try? modelContext.save()
+    }
+
+    private func deleteItem(_ item: Item) {
+        withAnimation {
+            modelContext.delete(item)
+            try? modelContext.save()
+        }
     }
     
     // Helper to generate days in the current month
@@ -177,6 +214,21 @@ struct CalendarView: View {
             }
         }
         
+        return days
+    }
+    
+    private func generateDaysInWeek(for date: Date) -> [Date?] {
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        guard let startOfWeek = calendar.date(from: components) else {
+            return []
+        }
+        
+        var days: [Date?] = []
+        for i in 0..<7 {
+            if let date = calendar.date(byAdding: .day, value: i, to: startOfWeek) {
+                days.append(date)
+            }
+        }
         return days
     }
     

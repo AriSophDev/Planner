@@ -109,7 +109,7 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .padding(.horizontal)
+                   
                     .offset(x: 10)
                     
                     Spacer()
